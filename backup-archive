@@ -170,6 +170,9 @@ if [ -r $configFile ]; then
         echo "archiveOld=$archiveOld, maIndNxt=$maIndNxt, buoIndNxt=$buoIndNxt, resp1=[$resp1]"
     done
     echo "Final archiveOld=$archiveOld, maIndNxt=$maIndNxt, buoIndNxt=$buoIndNxt, resp1=[$resp1]"
+else
+    echo "Error: No config file found"
+    exit 1
 fi
 
 declare -i ind
