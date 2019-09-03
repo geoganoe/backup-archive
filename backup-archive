@@ -22,7 +22,6 @@ remPrompt()
     echo "  that may write temporary data to folders that are to"
     echo "  be backed up."
     echo "  "
-    echo "  "
 }
 
 usage ()
@@ -99,12 +98,27 @@ echo "Parameter baseFldr = $baseFldr"
 echo "Parameter archiveOld = $archiveOld"
 
 remPrompt
-echo -n "Do you wish to continue? "
+echo "When you are ready, you may continue to perform the back up,"
+echo "  do a dry run which will go through the motions without"
+echo "  changing the destination folder, or quit the script and"
+echo "  return to the terminal prompt."
+echo
+echo -n "Do you wish to continue [n=quit, y=do backup, d=dry run]? "
 read resp1 resp2
+
+# This variable determines whether the rsync commands below will
+#   be active or be a dry run.  For a dry run use "in", and for an
+#   active run use "iv".  See rsync the man page for the meanings
+#   of these options.
+ropt1=in
 
 echo "resp1 is [$resp1], and resp2 is [$resp2]."
 
 if [ $resp1 == "y" ] || [ $resp1 == "yes" ]; then
+    ropt1=iv
+    echo
+elif [ $resp1 == "d" ] || [ $resp1 == "dry" ]; then
+    ropt1=in
     echo
 else
     echo "Exiting the backup-archive script as requested"
@@ -142,12 +156,6 @@ if [ -r $configFile ]; then
 fi
 
 declare -i ind
-
-# This variable determines whether the rsync commands below will
-#   be active or be a dry run.  For a dry run use "in", and for an
-#   active run use "iv".  See rsync the man page for the meanings
-#   of these options.
-ropt1=iv
 
 cd $destFldr
 echo
