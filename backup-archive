@@ -181,6 +181,12 @@ cd $destFldr
 echo
 echo "Changed to the destFldr, $destFldr"
 
+# Error found when a path ending with a file name instead of a folder
+#   name is specified for backup
+#   If the destination folder for the single file does not exist on the
+#   destination then the specified file will be copied to a file with
+#   the destination folder as its name
+
 echo "These are the $buoIndNxt [back up only] folders"
 for (( ind=0 ; buoIndNxt-ind ; ind++ )) ; do
     finalFldr=${buoFldrs[$ind]##*/}
