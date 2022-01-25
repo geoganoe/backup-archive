@@ -50,7 +50,7 @@ usage ()
     echo "    name of the destination for the back up)"
     echo
     echo "Also a file named backup-archive.conf must be placed in the"
-    echo "  $HOME/.config folder containing the list of folders"
+    echo "  $HOME/.config/backup folder containing the list of folders"
     echo "  that are to be backed up.  The config file has two"
     echo "  categories of folders.  They are [back up only] and"
     echo "  [maintain archive].  It can also have a [base] (to be"
@@ -98,7 +98,7 @@ else
     echo "The user back up folder $destFldr/$userNm was created."
 fi
 
-configFile="$HOME/.config/backup-archive.conf"
+configFile="$HOME/.config/backup/backup-archive.conf"
 baseFldr=$HOME
 archiveOld=null
 declare -a buoFldrs
@@ -170,9 +170,6 @@ if [ -r $configFile ]; then
         echo "archiveOld=$archiveOld, maIndNxt=$maIndNxt, buoIndNxt=$buoIndNxt, resp1=[$resp1]"
     done
     echo "Final archiveOld=$archiveOld, maIndNxt=$maIndNxt, buoIndNxt=$buoIndNxt, resp1=[$resp1]"
-else
-    echo "Error: No config file found"
-    exit 1
 fi
 
 declare -i ind
@@ -183,9 +180,10 @@ echo "Changed to the destFldr, $destFldr"
 
 # Error found when a path ending with a file name instead of a folder
 #   name is specified for backup
-#   If the destination folder for the single file does not exist on the
-#   destination then the specified file will be copied to a file with
-#   the destination folder as its name
+# A work around for now is to require that only backup folders be specified
+#   as source objects.  For the case which caused this error to be found,
+#   the backup-archive.conf file is now allocated in its own folder so when
+#   a new archive partition is used, it will be properly stored.
 
 echo "These are the $buoIndNxt [back up only] folders"
 for (( ind=0 ; buoIndNxt-ind ; ind++ )) ; do
